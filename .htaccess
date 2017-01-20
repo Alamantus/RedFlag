@@ -1,0 +1,13 @@
+RewriteEngine On    # Turn on the rewriting engine
+
+RewriteRule    \!(.+)\/?$    index.php?encodedbundle=$1    [NC,L]    # Handle word ids.
+
+#RewriteRule    ^([a-zA-Z0-9]+)\/?([a-zA-Z0-9]+)?\/?([a-zA-Z0-9]+)?\/([^\/]+)$    index.php?type1=$1&type2=$2&type3=$3&url=$4    [NC,L]    # Handle word ids.
+
+#RewriteRule    ^view/([0-9]+)/?$    index.php?dict=$1    [NC,L]    # Handle dictionary ids.
+
+#RewriteRule    ^([0-9]+)/?$    index.php?dict=$1    [NC,L]    # Handle dictionary ids.
+
+#RewriteRule ^issues/?$ https://github.com/Alamantus/Lexiconga/issues [R=301,L] # Shorten issues url.
+
+#RewriteRule ^updates/?$ https://github.com/Alamantus/Lexiconga/releases [R=301,L] # Shorten updates url.
