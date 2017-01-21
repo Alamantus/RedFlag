@@ -18,7 +18,7 @@
  */
 class EasyCrypt
 {
-    private $encrypt_method = "AES-256-CBC";
+    private $encrypt_method = 'AES-256-CBC';
     private $secret_key = 'website';
     private $secret_iv = 'encrypt that thing';
 

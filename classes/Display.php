@@ -84,11 +84,14 @@ class Display {
     
     <!-- Stylesheets -->
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.3.1/css/bulma.min.css" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet" />
 </head>
 <body>'
     . $page_content .
 '<!-- Scripts -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.0/jquery.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/placeholders/4.0.1/placeholders.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.5.16/clipboard.min.js"></script>
 <script src="js/polyfills.js"></script>
 <script src="js/regex-weburl.js"></script>
@@ -96,6 +99,70 @@ class Display {
 </body>
 </html>
         ');
+    }
+
+    public static function render_form () {
+//        $warning_options_html = '<option value="">Choose a Warning&hellip;</option>';
+//        foreach(Terminology::$warning_types as $warning_type => $warning_term) {
+//            $warning_options_html .= '<option value="' . $warning_type . '">' . $warning_term . '</option>';
+//        }
+
+        $page_content = ('
+<section class="section">
+    <div class="container">
+        <label class="label">
+            Warnings
+        </label>
+        <!--<span class="help">
+            Choose up to 3
+        </span>-->
+        <span class="help is-danger" id="warningsError"></span>
+        <p class="control is-loading" id="warningsControl">
+            <span class="select is-fullwidth">
+                <select id="warnings" multiple="multiple"></select>
+            </span>
+        </p>
+        <!--<div class="columns">
+            <div class="column">
+                <span class="select">
+                    <select id="warning1" multiple="multiple">
+                        ' . $warning_options_html . '
+                    </select>
+                </span>
+            </div>
+            <div class="column">
+                <span class="select">
+                    <select id="warning2">
+                        ' . $warning_options_html . '
+                    </select>
+                </span>
+            </div>
+            <div class="column">
+                <span class="select">
+                    <select id="warning3">
+                        ' . $warning_options_html . '
+                    </select>
+                </span>
+            </div>
+        </div>-->
+        <label class="label" for="#url">
+            URL
+        </label>
+        <span class="help is-danger" id="urlError"></span>
+        <p class="control">
+            <input class="input" id="url" type="text" placeholder="Link to Warn About" />
+        </p>
+        <p class="control">
+            <button class="button is-large" id="submit">
+                Get Link!
+            </button>
+        </p>
+        <p class="control has-addons" id="output"></p>
+    </div>
+</section>
+        ');
+
+        return $page_content;
     }
 
     public static function render_main_page ($error_message = false) {
@@ -145,53 +212,7 @@ class Display {
         </div>
     </div>
 </section>
-<section class="section">
-    <div class="container">
-        <label class="label">
-            Warnings
-        </label>
-        <span class="help">
-            Choose up to 3
-        </span>
-        <span class="help is-danger" id="warningsError"></span>
-        <div class="columns">
-            <div class="column">
-                <span class="select">
-                    <select id="warning1">
-                        ' . $warning_options_html . '
-                    </select>
-                </span>
-            </div>
-            <div class="column">
-                <span class="select">
-                    <select id="warning2">
-                        ' . $warning_options_html . '
-                    </select>
-                </span>
-            </div>
-            <div class="column">
-                <span class="select">
-                    <select id="warning3">
-                        ' . $warning_options_html . '
-                    </select>
-                </span>
-            </div>
-        </div>
-        <label class="label" for="#url">
-            URL
-        </label>
-        <span class="help is-danger" id="urlError"></span>
-        <p class="control">
-            <input class="input" id="url" type="text" placeholder="Link to Warn About" />
-        </p>
-        <p class="control">
-            <a class="button is-large" id="submit">
-                Get Link!
-            </a>
-        </p>
-        <p class="control has-addons" id="output"></p>
-    </div>
-</section>
+' . Display::render_form() . '
         ');
 
         echo Display::render_html_wrapper($page_content);

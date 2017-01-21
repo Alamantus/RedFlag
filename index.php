@@ -6,6 +6,7 @@
  * Time: 10:34 PM
  */
 
+require_once('./resources/constants.php');
 require_once('./classes/Display.php');
 require_once('./classes/EasyCrypt.php');
 require_once('./classes/DBControl.php');
@@ -20,7 +21,7 @@ $id = isset($_GET['id']) ? urldecode($_GET['id']) : false;
 
 $easycrypt = new EasyCrypt();
 $db = new DBControl('./resources/warner.db');
-$hashids = new Hashids\Hashids('Protect your eyes!');
+$hashids = new Hashids\Hashids(HASHID_CODE);
 
 $warn_types = array();
 if ($warn_type1) {

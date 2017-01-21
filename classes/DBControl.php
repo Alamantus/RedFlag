@@ -29,9 +29,9 @@ class DBControl
             $queryResults = $this->connection->prepare($query_string);
             $queryResults->execute();
             $this->results = $queryResults;
-            $this->first_result = $queryResults->fetch();
             $this->all_results = $queryResults->fetchAll();
-            $this->results_count = count($queryResults->fetchAll());
+            $this->first_result = $this->all_results[0];
+            $this->results_count = count($this->all_results);
             $this->last_insert_id = $this->connection->lastInsertId();
             $this->error = null;
             return true;
