@@ -12,6 +12,10 @@ class Terminology {
     public static $site_description = 'Put up a warning wall between whoever clicks your link and whatever&rsquo;s at
         the end of it with a warning about sensitive content';
 
+    public static $error_messages = array(
+        'failed' => 'Something went wrong while trying to find that warning page. Please try again later.'
+    ,   'no_results' => 'Something went wrong while trying to find that warning page. Please try again later.'
+    );
 
 
 
@@ -28,12 +32,14 @@ class Terminology {
 
 
 
-    public static $warning_intro = 'The person who provided this link wanted to warn you that the contents of the link contain';
+
+    public static $warning_intro = 'The person who provided this link wanted to warn you that the contents of the link
+        may contain';
 
     public static $warning_types = array(
         'test' => 'Testing',
-        'animal-abuse' => 'Animal Abuse',
-        'animal-cruelty' => 'Animal Cruelty',
+        'animal_abuse' => 'Animal Abuse',
+        'animal_cruelty' => 'Animal Cruelty',
         'drugs' => 'Drug Usage',
         'gore' => 'Gore',
         'profanity' => 'Profanity',

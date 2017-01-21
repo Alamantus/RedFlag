@@ -49,6 +49,15 @@ function formIsValid () {
 }
 
 $(document).ready(function () {
+    if ($('#backButton').attr('href') === window.location.href) {
+        // If the user pastes the link into their address bar, the PHP Referrer doesn't work.
+        // So instead, try reassigning the button to the back() function.
+        $('#backButton').removeAttr('href');
+        $('#backButton').click(function () {
+            window.history.back();
+        });
+    }
+
     $('#submit').click(function () {
         'use strict';
         if (formIsValid()) {
@@ -71,9 +80,12 @@ $(document).ready(function () {
 
             $.post('actions/encode_url.php', {url: warningPathString + url}, function (data) {
                 var link = dir + '!' + data;
-                var html = '<input class="input is-expanded" id="result" type="text" readonly="readonly" value="' + link + '" />';
+                if (data === 'failed') {
+                    link = 'Please try again later';
+                }
                 var copyButton = '<a class="button is-info" id="copyButton" data-clipboard-target="#result">Copy</a>'
-                $('#output').html(html + copyButton);
+                var html = '<input class="input is-expanded" id="result" type="text" readonly="readonly" value="' + link + '" />';
+                $('#output').html(copyButton + html);
 
                 new Clipboard('#copyButton');
             });

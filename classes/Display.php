@@ -98,10 +98,21 @@ class Display {
         ');
     }
 
-    public static function render_main_page () {
+    public static function render_main_page ($error_message = false) {
         $warning_options_html = '<option value="">Choose a Warning&hellip;</option>';
         foreach(Terminology::$warning_types as $warning_type => $warning_term) {
             $warning_options_html .= '<option value="' . $warning_type . '">' . $warning_term . '</option>';
+        }
+
+        $error_html = '';
+        if ($error_message) {
+            $error_html = ('
+<div class="container has-text-centered">
+    <div class="notification is-warning">
+        ' . Terminology::$error_messages[$error_message] . '
+    </div>
+</div>
+            ');
         }
 
         $page_content = ('
@@ -123,6 +134,7 @@ class Display {
 
     <!-- Hero content: will be in the middle -->
     <div class="hero-body">
+        ' . $error_html . '
         <div class="container has-text-centered">
             <h1 class="title">
                 ' . Terminology::$site_tagline . '
@@ -204,7 +216,7 @@ class Display {
             </h1>
             
             <div class="container">
-                <a class="button is-info is-medium" href="' . $_SERVER['HTTP_REFERER'] . '">
+                <a class="button is-info is-medium" id="backButton" href="' . $_SERVER['HTTP_REFERER'] . '">
                     ' . Terminology::$reject_text . '
                 </a>
                 <br /><br />

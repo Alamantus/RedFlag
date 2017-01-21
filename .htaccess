@@ -1,6 +1,6 @@
 RewriteEngine On    # Turn on the rewriting engine
 
-RewriteRule    \!(.+)\/?$    index.php?encodedbundle=$1    [NC,L]    # Handle word ids.
+RewriteRule    \!(.+)\/?$    index.php?id=$1    [NC,L]    # Handle word ids.
 
 #RewriteRule    ^([a-zA-Z0-9]+)\/?([a-zA-Z0-9]+)?\/?([a-zA-Z0-9]+)?\/([^\/]+)$    index.php?type1=$1&type2=$2&type3=$3&url=$4    [NC,L]    # Handle word ids.
 
