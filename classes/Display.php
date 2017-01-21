@@ -204,7 +204,7 @@ class Display {
             </h1>
             
             <div class="container">
-                <a class="button is-warning is-success is-medium" href="' . $_SERVER['HTTP_REFERER'] . '">
+                <a class="button is-info is-medium" href="' . $_SERVER['HTTP_REFERER'] . '">
                     ' . Terminology::$reject_text . '
                 </a>
                 <br /><br />
