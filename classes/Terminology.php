@@ -7,7 +7,7 @@
  */
 
 class Terminology {
-    public static $site_name = 'Warner';
+    public static $site_name = 'RedFlag';
     public static $site_tagline = 'Content Warnings Made Simple';
     public static $site_description = 'Put up a warning wall between whoever clicks your link and whatever&rsquo;s at
         the end of it with a warning about sensitive content';
