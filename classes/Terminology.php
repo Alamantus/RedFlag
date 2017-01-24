@@ -19,39 +19,7 @@ class Terminology {
     ,   'no_results' => 'Somehow, there aren\'t any warnings associated with that link. Please try again later.'
     );
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    public static $warning_intro = 'The person who provided this link wanted to warn you that the contents of the link
-        may contain';
-
-    public static $warning_types = array(
-        'test' => 'Testing',
-        'animal_abuse' => 'Animal Abuse',
-        'animal_cruelty' => 'Animal Cruelty',
-        'drugs' => 'Drug Usage',
-        'gore' => 'Gore',
-        'profanity' => 'Profanity',
-        'racism' => 'Racism',
-        'rape' => 'Rape',
-        'selfharm' => 'Self-Harm Mention',
-        'suicide' => 'Suicide Mention',
-        'torture' => 'Torture',
-        'violence' => 'Violence',
-    );
+    public static $warning_intro = 'Warning! The following link may contain or be a trigger for the following:';
 
     public static $accept_text = 'I understand. Continue to ';
     public static $reject_text = 'Thanks for the warning! Take me back!';

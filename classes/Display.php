@@ -47,12 +47,15 @@ class Display {
         return $result;
     }
 
+    public static function get_website_path () {
+        $protocol = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off') ? 'https' : 'http';
+        return $protocol . '://' . $_SERVER['HTTP_HOST'].dirname($_SERVER['PHP_SELF']);
+    }
+
     private static function render_html_wrapper ($page_content, $page_title = false, $image_text = false) {
         $page_title = ($page_title !== false) ? $page_title : Terminology::$site_name;
         $image_text = ($image_text !== false) ? urlencode($image_text) : Terminology::$site_name;
-        $protocol = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off') ? 'https' : 'http';
-        $page_path = $protocol . '://' . $_SERVER['HTTP_HOST'].dirname($_SERVER['PHP_SELF']);
-        $image_url = $page_path . '/actions/warn-image.php?text=' . $image_text;
+        $image_url = Display::get_website_path() . '/actions/warn-image.php?text=' . $image_text;
         $page_description = Terminology::$site_description;
 
         return ('
@@ -104,49 +107,18 @@ class Display {
     }
 
     public static function render_form () {
-//        $warning_options_html = '<option value="">Choose a Warning&hellip;</option>';
-//        foreach(Terminology::$warning_types as $warning_type => $warning_term) {
-//            $warning_options_html .= '<option value="' . $warning_type . '">' . $warning_term . '</option>';
-//        }
-
-        $page_content = ('
+        $form_content = ('
 <section class="section">
     <div class="container">
         <label class="label">
             Warnings
         </label>
-        <!--<span class="help">
-            Choose up to 3
-        </span>-->
         <span class="help is-danger" id="warningsError"></span>
         <p class="control is-loading" id="warningsControl">
             <span class="select is-fullwidth">
                 <select id="warnings" multiple="multiple"></select>
             </span>
         </p>
-        <!--<div class="columns">
-            <div class="column">
-                <span class="select">
-                    <select id="warning1" multiple="multiple">
-                        ' . $warning_options_html . '
-                    </select>
-                </span>
-            </div>
-            <div class="column">
-                <span class="select">
-                    <select id="warning2">
-                        ' . $warning_options_html . '
-                    </select>
-                </span>
-            </div>
-            <div class="column">
-                <span class="select">
-                    <select id="warning3">
-                        ' . $warning_options_html . '
-                    </select>
-                </span>
-            </div>
-        </div>-->
         <label class="label" for="#url">
             URL
         </label>
@@ -164,15 +136,10 @@ class Display {
 </section>
         ');
 
-        return $page_content;
+        return $form_content;
     }
 
     public static function render_main_page ($error_message = false) {
-        $warning_options_html = '<option value="">Choose a Warning&hellip;</option>';
-        foreach(Terminology::$warning_types as $warning_type => $warning_term) {
-            $warning_options_html .= '<option value="' . $warning_type . '">' . $warning_term . '</option>';
-        }
-
         $error_html = '';
         if ($error_message) {
             $error_html = ('
@@ -249,6 +216,14 @@ class Display {
             </div>
         </div>
     </div>
+    <footer class="hero-foot">
+        <div class="container has-text-centered">
+            Create your own warning with
+            <a href="' . Display::get_website_path() . '">
+                ' . Terminology::$site_name . '
+            </a>
+        </div>
+    </footer>
 </section>
         ');
 

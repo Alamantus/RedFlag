@@ -104,4 +104,10 @@ $(document).ready(function () {
             });
         }
     });
+
+    $('#url').keypress(function(event){
+        if(event.keyCode==13) {
+            $('#submit').click();
+        }
+    });
 });
