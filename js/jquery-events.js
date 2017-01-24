@@ -73,6 +73,12 @@ $(document).ready(function () {
         $(this).html(markdownText);
     });
 
+    $('.nav-toggle').click(function () {
+        'use strict';
+        console.log('hello');
+        $('.nav-menu').toggleClass('is-active');
+    })
+
     $('#submit').click(function () {
         'use strict';
         if (formIsValid()) {

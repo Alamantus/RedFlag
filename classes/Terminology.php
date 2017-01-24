@@ -12,7 +12,20 @@ class Terminology {
     public static $site_description = 'Put up a warning wall between whoever clicks your link and whatever&rsquo;s at
         the end of it with a warning about sensitive content';
 
-    public static $site_footer = 'Like what we&rsquo;re doing? <a href="https://ko-fi.com/A367JK3">Consider donating to help keep us online!</a>';
+    public static $site_footer = '
+<div class="level">
+    <div class="level-left">
+        <div class="level-item">
+            Like what we&rsquo;re doing?&nbsp;<a class="button is-primary is-small" href="https://ko-fi.com/A367JK3" title="via Ko-Fi">Buy Me a Coffee</a><br />
+        </div>
+    </div>
+    <div class="level-right">
+        <div class="level-item">
+            <a href="./issues" class="button is-small is-primary is-outlined" target="_blank">Report an Issue</a>
+        </div>
+    </div>
+</div>
+    ';
 
     public static $error_messages = array(
         'failed' => 'Something went wrong while trying to find that warning page. Please try again later.'

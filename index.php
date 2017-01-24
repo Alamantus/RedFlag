@@ -33,8 +33,7 @@ if ($id) {
 
             $warnings_query = ('
 SELECT `term` FROM `warnings`
-WHERE `id` IN (' . implode(', ', $warnings_ids) . ')
-ORDER BY `term` ASC;
+WHERE `id` IN (' . implode(', ', $warnings_ids) . ');
             ');
 
             if ($db->query($warnings_query)) {
@@ -44,6 +43,8 @@ ORDER BY `term` ASC;
                     foreach($db->all_results as $result) {
                         $warnings[] = $easycrypt->decrypt($result['term']);
                     }
+
+                    sort($warnings);
 
                     Display::render_warning_page($url, $warnings);
                 } else {

@@ -92,7 +92,6 @@ class Display {
     <!-- Stylesheets -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.3.1/css/bulma.min.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" />
-    <link rel="stylesheet" href="./css/main.css" />
 </head>
 <body>'
     . $page_content .
@@ -105,9 +104,50 @@ class Display {
 <script src="js/polyfills.js"></script>
 <script src="js/regex-weburl.js"></script>
 <script src="js/jquery-events.js"></script>
+
+<!-- Google Analytics -->
+<script>
+(function(i,s,o,g,r,a,m){i[\'GoogleAnalyticsObject\']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,\'script\',\'https://www.google-analytics.com/analytics.js\',\'ga\');
+ga(\'create\', \'UA-90756884-1\', \'auto\');
+ga(\'send\', \'pageview\');
+</script>
 </body>
 </html>
         ');
+    }
+
+    public static function render_navbar () {
+        $navbar_content = ('
+<nav class="nav">
+    <div class="container">
+        <div class="nav-left">
+            <a class="nav-item" href="../">
+                <h2 class="title">
+                    ' . Terminology::$site_name . '
+                </h2>
+            </a>
+        </div>
+        <span class="nav-toggle">
+            <span></span>
+            <span></span>
+            <span></span>
+        </span>
+        <div class="nav-right nav-menu">
+            <a class="nav-item" href="../">
+                Home
+            </a>
+            <a class="nav-item" href="../about">
+                About
+            </a>
+        </div>
+    </div>
+</nav>
+        ');
+
+        return $navbar_content;
     }
 
     public static function render_form () {
@@ -159,22 +199,11 @@ class Display {
 <header class="hero is-primary is-medium">
     <!-- Hero header: will stick at the top -->
     <div class="hero-head">
-        <nav class="nav">
-            <div class="container">
-                <div class="nav-left">
-                    <a class="nav-item" href="../">
-                        <h2 class="title">
-                            ' . Terminology::$site_name . '
-                        </h2>
-                    </a>
-                </div>
-            </div>
-        </nav>
+        ' . Display::render_navbar() . '
     </div>
 
     <!-- Hero content: will be in the middle -->
     <div class="hero-body">
-        ' . $error_html . '
         <div class="container has-text-centered">
             <h1 class="title">
                 ' . Terminology::$site_tagline . '
@@ -183,6 +212,7 @@ class Display {
                 ' . Terminology::$site_description . '
             </h2>
         </div>
+        ' . $error_html . '
     </div>
 </header>
 ' . Display::render_form() . '
@@ -244,17 +274,7 @@ class Display {
 <header class="hero is-primary">
     <!-- Hero header: will stick at the top -->
     <div class="hero-head">
-        <nav class="nav">
-            <div class="container">
-                <div class="nav-left">
-                    <a class="nav-item" href="../">
-                        <h2 class="title">
-                            ' . Terminology::$site_name . '
-                        </h2>
-                    </a>
-                </div>
-            </div>
-        </nav>
+        ' . Display::render_navbar() . '
     </div>
 
     <!-- Hero content: will be in the middle -->
