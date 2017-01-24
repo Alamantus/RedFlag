@@ -7,10 +7,12 @@
  */
 
 require_once('../resources/constants.php');
+require_once('../classes/EasyCrypt.php');
 require_once('../classes/DBControl.php');
 require_once('../classes/Hashids/HashGenerator.php');
 require_once('../classes/Hashids/Hashids.php');
 
+$easycrypt = new EasyCrypt();
 $db = new DBControl('../resources/warner.db');
 $hashids = new Hashids\Hashids(HASHID_CODE);
 
@@ -27,18 +29,26 @@ AND `used_times`<' . PROPOSED_USE_THRESHOLD . ';
 
 $query = ('
 SELECT * FROM `warnings`
-WHERE `active`=1
-ORDER BY `term` ASC;
+WHERE `active`=1;
 ');
 
 if ($db->query($update)) {
     if ($db->query($query)) {
         $hashed = array();
-        // echo json_encode($hashed);
-        foreach($db->all_results as $warning) {
-            $warning['id'] = $hashids->encode(intval($warning['id']));
-            $hashed[] = $warning;
+
+        // $terms array for sorting alphabetically after it's decrypted.
+        $terms = array();
+
+        foreach($db->all_results as $key => $row) {
+            $term = $easycrypt->decrypt($row['term']);
+            $terms[$key] = $term;
+            $row['id'] = $hashids->encode(intval($row['id']));
+            $row['term'] = $term;
+            $hashed[] = $row;
         }
+
+        array_multisort($terms, SORT_ASC, $hashed);
+
         // header('Content-Type: application/json');
         echo json_encode($hashed);
     } else {

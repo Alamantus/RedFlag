@@ -24,6 +24,12 @@ class DBControl
     public $last_insert_id = null;
 
     public function query ($query_string) {
+        $this->error = null;
+        $this->results = null;
+        $this->first_result = null;
+        $this->all_results = null;
+        $this->results_count = null;
+        $this->last_insert_id = null;
 
         try {
             $queryResults = $this->connection->prepare($query_string);

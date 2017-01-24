@@ -23,6 +23,8 @@ $easycrypt = new EasyCrypt();
 $db = new DBControl('./resources/warner.db');
 $hashids = new Hashids\Hashids(HASHID_CODE);
 
+$id_array = $hashids->decode($id);
+
 $warn_types = array();
 if ($warn_type1) {
     array_push($warn_types, $warn_type1);
@@ -34,17 +36,38 @@ if ($warn_type3) {
     array_push($warn_types, $warn_type3);
 }
 
+$warnings_ids = array_slice($id_array, 1);
+
 if ($id) {
-    $query = 'SELECT `link` FROM `links` WHERE `id`=' . $hashids->decode($id)[0];
+    $query = 'SELECT `link` FROM `links` WHERE `id`=' . $id_array[0] . ';';
 
     if ($db->query($query)) {
-        if ($db->first_result !== false) {
-            $url = $db->first_result['link'];
-//            echo $url;
-//            echo $easycrypt->decrypt($url);
-            Display::render_warning_page($easycrypt->decrypt($url));
+        if ($db->first_result !== null) {
+            $url = $easycrypt->decrypt($db->first_result['link']);
+
+            $warnings_query = ('
+SELECT `term` FROM `warnings`
+WHERE `id` IN (' . implode(', ', $warnings_ids) . ')
+ORDER BY `term` ASC;
+            ');
+
+            if ($db->query($warnings_query)) {
+                if ($db->results_count > 0) {
+                    $warnings = array();
+
+                    foreach($db->all_results as $result) {
+                        $warnings[] = $easycrypt->decrypt($result['term']);
+                    }
+
+                    Display::render_warning_page($url, $warnings);
+                } else {
+                    Display::render_main_page('no_results');
+                }
+            } else {
+                Display::render_main_page('no_warnings');
+            }
         } else {
-            Display::render_main_page('no_results');
+            Display::render_main_page('no_link');
         }
     } else {
         echo $db->error;

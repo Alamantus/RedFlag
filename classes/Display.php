@@ -49,7 +49,10 @@ class Display {
 
     private static function render_html_wrapper ($page_content, $page_title = false, $image_text = false) {
         $page_title = ($page_title !== false) ? $page_title : Terminology::$site_name;
-        $image_text = ($image_text !== false) ? $image_text : Terminology::$site_name;
+        $image_text = ($image_text !== false) ? urlencode($image_text) : Terminology::$site_name;
+        $protocol = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off') ? 'https' : 'http';
+        $page_path = $protocol . '://' . $_SERVER['HTTP_HOST'].dirname($_SERVER['PHP_SELF']);
+        $image_url = $page_path . '/actions/warn-image.php?text=' . $image_text;
         $page_description = Terminology::$site_description;
 
         return ('
@@ -66,20 +69,19 @@ class Display {
     <!-- html itemscope itemtype="http://schema.org/{CONTENT_TYPE}" -->
     <meta itemprop="name" content="'. $page_title . '" />
     <meta itemprop="description" content="' . $page_description . '" />
-    <meta itemprop="image" content="thumbnail.png" />
+    <meta itemprop="image" content="' . $image_url . '" />
     <!-- Twitter -->
-    <meta name="twitter:card" content="Twitter Card Summary" />
+    <meta name="twitter:card" content="' . $page_title . '" />
     <meta name="twitter:site" content="@twitter_site_handle" />
     <meta name="twitter:title" content="'. $page_title . '" />
     <meta name="twitter:description" content="' . $page_description . '" />
-    <meta name="twitter:creator" content="@twitter_user_handle" />
-    <meta name="twitter:image:src" content="thumbnail.png" />
+    <meta name="twitter:creator" content="@robbieantenesse" />
+    <meta name="twitter:image:src" content="' . $image_url . '&height=600" />
     <!-- Open Graph General (Facebook & Pinterest) -->
-    <meta property="og:url" content="URL" />
     <meta property="og:title" content="'. $page_title . '" />
     <meta property="og:description" content="' . $page_description . '" />
-    <meta property="og:site_name" content="Site Name" />
-    <meta property="og:image" content="thumbnail.png" />
+    <meta property="og:site_name" content="' . Terminology::$site_name . '" />
+    <meta property="og:image" content="' . $image_url . '&height=600" />
     <meta property="og:type" content="website" />
     
     <!-- Stylesheets -->
@@ -218,12 +220,12 @@ class Display {
         echo Display::render_html_wrapper($page_content);
     }
 
-    public static function render_warning_page ($url) {
-        $values = explode('|', $url);
+    public static function render_warning_page ($url, $warnings) {
+//        $values = explode('|', $url);
         // array_pop() removes the last value from the referenced array.
-        $link = array_pop($values);
-        $warning_term_array = Terminology::convert_warning_array($values);
-        $warning_term_list = Display::render_comma_list($warning_term_array);
+//        $link = array_pop($values);
+//        $warning_term_array = Terminology::convert_warning_array($values);
+        $warning_term_list = Display::render_comma_list($warnings);
 
         $page_content = ('
 <section class="hero is-fullheight is-danger">
@@ -241,8 +243,8 @@ class Display {
                     ' . Terminology::$reject_text . '
                 </a>
                 <br /><br />
-                <a class="button is-warning is-small is-outlined" href="' . $link . '">
-                    ' . Terminology::$accept_text . $link . '
+                <a class="button is-warning is-small is-outlined" href="' . $url . '">
+                    ' . Terminology::$accept_text . $url . '
                 </a>
             </div>
         </div>
@@ -250,6 +252,6 @@ class Display {
 </section>
         ');
 
-        echo Display::render_html_wrapper($page_content, $warning_term_list . ' Warning', $warning_term_list);
+        echo Display::render_html_wrapper($page_content, $warning_term_list . 'Warning', $warning_term_list);
     }
 }

@@ -47,16 +47,19 @@ $(document).ready(function () {
             placeholder: 'Search and choose up to 3'
         ,   maximumSelectionLength: 3
         ,   data: data.map(function (item) {return {id:item.id, text:item.term}})
-        ,   noResults: function () {
-                return ('No Results Found. Do you want to propose it as a new warning?');
-            }
+        ,   language: {
+                noResults: function () {
+                    return ('No Results Found. Do you want to propose it as a new warning?');
+                }
+          }
         ,   escapeMarkup: function (markup) {return markup}
         });
         $('.select2-container').css('width', '100%');
         $('#warningsControl').removeClass('is-loading');
     });
 
-    if ($('#backButton').attr('href') === window.location.href) {
+    if ($('#backButton').attr('href') === window.location.href
+        || $('#backButton').attr('href') === '') {
         // If the user pastes the link into their address bar, the PHP Referrer doesn't work.
         // So instead, try reassigning the button to the back() function.
         $('#backButton').removeAttr('href');
@@ -85,6 +88,8 @@ $(document).ready(function () {
                 warnings: JSON.stringify(warnings)
             ,   url: url
             };
+
+            console.log(dataPacket);
 
             $.post('actions/encode_url.php', dataPacket, function (data) {
                 var link = dir + '!' + data;

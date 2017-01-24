@@ -14,7 +14,9 @@ class Terminology {
 
     public static $error_messages = array(
         'failed' => 'Something went wrong while trying to find that warning page. Please try again later.'
-    ,   'no_results' => 'Something went wrong while trying to find that warning page. Please try again later.'
+    ,   'no_link' => 'Something went wrong while trying to find the link this warning page is for. Please try again later.'
+    ,   'no_warnings' => 'Something went wrong while trying to find the warnings for this link. Please try again later.'
+    ,   'no_results' => 'Somehow, there aren\'t any warnings associated with that link. Please try again later.'
     );
 
 
