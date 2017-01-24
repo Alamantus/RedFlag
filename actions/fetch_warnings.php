@@ -33,8 +33,14 @@ ORDER BY `term` ASC;
 
 if ($db->query($update)) {
     if ($db->query($query)) {
-        header('Content-Type: application/json');
-        echo json_encode($db->all_results);
+        $hashed = array();
+        // echo json_encode($hashed);
+        foreach($db->all_results as $warning) {
+            $warning['id'] = $hashids->encode(intval($warning['id']));
+            $hashed[] = $warning;
+        }
+        // header('Content-Type: application/json');
+        echo json_encode($hashed);
     } else {
         echo 'query failed';
     }

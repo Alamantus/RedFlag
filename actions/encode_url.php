@@ -31,10 +31,16 @@ WHERE l.`hash`="' . $url_hash . '"
 AND w.`id` IN (' . implode(', ', $warnings) . ')
 ');
 
-if ($db->query($check_connection_exists)) {
+$check_url_exists = ('
+SELECT `id` FROM `links`
+WHERE `hash`="' . $url_hash . '";
+');
+
+if ($db->query($check_url_exists)) {
+    $link_id = null;
     if ($db->first_result !== false) {
 //        echo 'record found';
-        echo $hashids->encode($db->first_result['id']);
+        $link_id = $db->first_result['id'];
     } else {
 //        echo 'result does not exist';
         $add_query = 'INSERT INTO `links` (`hash`, `link`) VALUES ("' . $encoded_url_hash . '", "' . $encoded_url . '");';
