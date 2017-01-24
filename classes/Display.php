@@ -87,9 +87,12 @@ class Display {
     <meta property="og:image" content="' . $image_url . '&height=600" />
     <meta property="og:type" content="website" />
     
+    <link rel="icon" href="favicon.ico" type="image/x-icon" />
+    
     <!-- Stylesheets -->
-    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.3.1/css/bulma.min.css" />
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.3.1/css/bulma.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" />
+    <link rel="stylesheet" href="./css/main.css" />
 </head>
 <body>'
     . $page_content .
@@ -98,6 +101,7 @@ class Display {
 <script src="https://cdnjs.cloudflare.com/ajax/libs/placeholders/4.0.1/placeholders.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.5.16/clipboard.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/marked/0.3.6/marked.min.js"></script>
 <script src="js/polyfills.js"></script>
 <script src="js/regex-weburl.js"></script>
 <script src="js/jquery-events.js"></script>
@@ -127,7 +131,7 @@ class Display {
             <input class="input" id="url" type="text" placeholder="Link to Warn About" />
         </p>
         <p class="control">
-            <button class="button is-large" id="submit">
+            <button class="button is-primary is-large" id="submit">
                 Get Link!
             </button>
         </p>
@@ -152,10 +156,10 @@ class Display {
         }
 
         $page_content = ('
-<section class="hero is-primary is-medium">
+<header class="hero is-primary is-medium">
     <!-- Hero header: will stick at the top -->
     <div class="hero-head">
-        <header class="nav">
+        <nav class="nav">
             <div class="container">
                 <div class="nav-left">
                     <a class="nav-item" href="../">
@@ -165,7 +169,7 @@ class Display {
                     </a>
                 </div>
             </div>
-        </header>
+        </nav>
     </div>
 
     <!-- Hero content: will be in the middle -->
@@ -180,8 +184,13 @@ class Display {
             </h2>
         </div>
     </div>
-</section>
+</header>
 ' . Display::render_form() . '
+<footer class="footer is-sticky">
+    <div class="container">
+        ' . Terminology::$site_footer . '
+    </div>
+</footer>
         ');
 
         echo Display::render_html_wrapper($page_content);
@@ -228,5 +237,52 @@ class Display {
         ');
 
         echo Display::render_html_wrapper($page_content, $warning_term_list . 'Warning', $warning_term_list);
+    }
+
+    public static function render_about_page () {
+        $page_content = ('
+<header class="hero is-primary">
+    <!-- Hero header: will stick at the top -->
+    <div class="hero-head">
+        <nav class="nav">
+            <div class="container">
+                <div class="nav-left">
+                    <a class="nav-item" href="../">
+                        <h2 class="title">
+                            ' . Terminology::$site_name . '
+                        </h2>
+                    </a>
+                </div>
+            </div>
+        </nav>
+    </div>
+
+    <!-- Hero content: will be in the middle -->
+    <div class="hero-body">
+        <div class="container has-text-centered">
+            <h1 class="title">
+                ' . Terminology::$site_tagline . '
+            </h1>
+            <h2 class="subtitle">
+                ' . Terminology::$site_description . '
+            </h2>
+        </div>
+    </div>
+</header>
+<section class="section">
+    <div class="container">
+        <article class="content">
+            ' . Terminology::$about_text . '
+        </article>
+    </div>
+</section>
+<footer class="footer is-sticky">
+    <div class="container">
+        ' . Terminology::$site_footer . '
+    </div>
+</footer>
+        ');
+
+        echo Display::render_html_wrapper($page_content);
     }
 }

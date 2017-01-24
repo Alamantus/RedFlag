@@ -13,28 +13,14 @@ require_once('./classes/DBControl.php');
 require_once('./classes/Hashids/HashGenerator.php');
 require_once('./classes/Hashids/Hashids.php');
 
-$warn_type1 = isset($_GET['type1']) ? $_GET['type1'] : false;
-$warn_type2 = isset($_GET['type2']) ? $_GET['type2'] : false;
-$warn_type3 = isset($_GET['type3']) ? $_GET['type3'] : false;
-// $url = isset($_GET['url']) ? urldecode($_GET['url']) : false;
 $id = isset($_GET['id']) ? urldecode($_GET['id']) : false;
+$page = isset($_GET['page']) ? urldecode($_GET['page']) : false;
 
 $easycrypt = new EasyCrypt();
 $db = new DBControl('./resources/warner.db');
 $hashids = new Hashids\Hashids(HASHID_CODE);
 
 $id_array = $hashids->decode($id);
-
-$warn_types = array();
-if ($warn_type1) {
-    array_push($warn_types, $warn_type1);
-}
-if ($warn_type2) {
-    array_push($warn_types, $warn_type2);
-}
-if ($warn_type3) {
-    array_push($warn_types, $warn_type3);
-}
 
 $warnings_ids = array_slice($id_array, 1);
 
@@ -72,6 +58,16 @@ ORDER BY `term` ASC;
     } else {
         echo $db->error;
         Display::render_main_page('failed');
+    }
+} elseif ($page) {
+    switch ($page) {
+        case 'about': {
+            Display::render_about_page();
+            break;
+        }
+        default: {
+            Display::render_main_page('no_page');
+        }
     }
 } else {
     Display::render_main_page();

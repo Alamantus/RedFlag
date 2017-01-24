@@ -68,6 +68,11 @@ $(document).ready(function () {
         });
     }
 
+    $('.content').each(function () {
+        var markdownText = marked($(this).text());
+        $(this).html(markdownText);
+    });
+
     $('#submit').click(function () {
         'use strict';
         if (formIsValid()) {
@@ -77,19 +82,12 @@ $(document).ready(function () {
             var href = window.location.href;
             var dir = href.substring(0, href.lastIndexOf('/')) + "/";
 
-            // var warningPathString = '';
-            // for (var i = 0; i < warnings.length; i++) {
-            //     if (warnings[i] !== '') {
-            //         warningPathString += warnings[i] + '|';
-            //     }
-            // }
-
             var dataPacket = {
                 warnings: JSON.stringify(warnings)
             ,   url: url
             };
 
-            console.log(dataPacket);
+            // console.log(dataPacket);
 
             $.post('actions/encode_url.php', dataPacket, function (data) {
                 var link = dir + '!' + data;
