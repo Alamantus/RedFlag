@@ -10,7 +10,7 @@ require_once('../classes/EasyCrypt.php');
 require_once('../classes/DBControl.php');
 
 $easycrypt = new EasyCrypt();
-$db = new DBControl('../resources/warner.db');
+$db = new DBControl('../resources/redflag.db');
 
 $now = time();
 $insert_query = ('
@@ -55,6 +55,7 @@ VALUES ("' . $easycrypt->encrypt('Abandonment') . '", ' . $now . '),
 ("' . $easycrypt->encrypt('Homophobia') . '", ' . $now . '),
 ("' . $easycrypt->encrypt('Incest') . '", ' . $now . '),
 ("' . $easycrypt->encrypt('Insects') . '", ' . $now . '),
+("' . $easycrypt->encrypt('Islamophobia') . '", ' . $now . '),
 ("' . $easycrypt->encrypt('Kidnapping') . '", ' . $now . '),
 ("' . $easycrypt->encrypt('Mental Abuse') . '", ' . $now . '),
 ("' . $easycrypt->encrypt('Mental Illness') . '", ' . $now . '),

@@ -66,6 +66,18 @@ RedFlag is here to provide a better experience on social media and for clicking 
 followers not have their day ruined by unexpected horrific content.
     ';
 
+    public static $propose_text = '
+# Propose a New Warning
+
+There&rsquo;s no way we can offer a complete list of things that anyone would want to warn others about, so we appreciate
+that you want to help us create as full and complete a list as possible!
+
+Please write your warning suggestion below with Capitalization and correct spelling, and please be sure that it is definitely
+not already on the list. After you submit, your proposed warning will become visible to everyone for 30 days. If it is not
+used for at least 15 different links in 30 days, it will disappear from the warnings list, though any links created using
+it will still display the warning.
+    ';
+
     public static function convert_warning_array ($warning_types_array) {
         $result = array();
         foreach($warning_types_array as $warning_type) {

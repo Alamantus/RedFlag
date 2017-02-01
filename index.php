@@ -13,18 +13,19 @@ require_once('./classes/DBControl.php');
 require_once('./classes/Hashids/HashGenerator.php');
 require_once('./classes/Hashids/Hashids.php');
 
-$id = isset($_GET['id']) ? urldecode($_GET['id']) : false;
+$warning_id = isset($_GET['id']) ? urldecode($_GET['id']) : false;
+$preselected_warning = isset($_GET['preselected']) ? urldecode($_GET['preselected']) : '';
 $page = isset($_GET['page']) ? urldecode($_GET['page']) : false;
 
 $easycrypt = new EasyCrypt();
-$db = new DBControl('./resources/warner.db');
+$db = new DBControl('./resources/redflag.db');
 $hashids = new Hashids\Hashids(HASHID_CODE);
 
-$id_array = $hashids->decode($id);
+$id_array = $hashids->decode($warning_id);
 
-$warnings_ids = array_slice($id_array, 1);
+$warnings_array = array_slice($id_array, 1);
 
-if ($id) {
+if ($warning_id) {
     $query = 'SELECT `link` FROM `links` WHERE `id`=' . $id_array[0] . ';';
 
     if ($db->query($query)) {
@@ -33,7 +34,7 @@ if ($id) {
 
             $warnings_query = ('
 SELECT `term` FROM `warnings`
-WHERE `id` IN (' . implode(', ', $warnings_ids) . ');
+WHERE `id` IN (' . implode(', ', $warnings_array) . ');
             ');
 
             if ($db->query($warnings_query)) {
@@ -48,17 +49,17 @@ WHERE `id` IN (' . implode(', ', $warnings_ids) . ');
 
                     Display::render_warning_page($url, $warnings);
                 } else {
-                    Display::render_main_page('no_results');
+                    Display::render_main_page(array('error' => 'no_results'));
                 }
             } else {
-                Display::render_main_page('no_warnings');
+                Display::render_main_page(array('error' => 'no_warnings'));
             }
         } else {
-            Display::render_main_page('no_link');
+            Display::render_main_page(array('error' => 'no_link'));
         }
     } else {
-        echo $db->error;
-        Display::render_main_page('failed');
+        // echo $db->error;
+        Display::render_main_page(array('error' => 'failed'));
     }
 } elseif ($page) {
     switch ($page) {
@@ -66,10 +67,15 @@ WHERE `id` IN (' . implode(', ', $warnings_ids) . ');
             Display::render_about_page();
             break;
         }
+        case 'newwarning': {
+            Display::render_propose_page();
+            break;
+        }
         default: {
-            Display::render_main_page('no_page');
+            Display::render_main_page(array('error' => 'no_page'));
         }
     }
 } else {
-    Display::render_main_page();
+    Display::render_main_page(array('preselected' => $preselected_warning));
+    // Display::render_main_page();
 }

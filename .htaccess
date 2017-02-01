@@ -4,6 +4,8 @@ RewriteRule    ^issues/?$   https://github.com/Alamantus/RedFlag/issues [R=301,L
 
 RewriteRule    ^!(.+)/?$    index.php?id=$1    [NC,L]    # Handle word ids.
 
+RewriteRule    ^~(.+)/?$    index.php?preselected=$1    [NC,L]    # Handle pre-entered warnings.
+
 RewriteRule    ^([a-zA-Z0-9]+)(?!\.[a-z]+)/?$    index.php?page=$1    [NC,L]    # Handle pages, exclude scripts.
 
 #RewriteRule    ^([a-zA-Z0-9]+)\/?([a-zA-Z0-9]+)?\/?([a-zA-Z0-9]+)?\/([^\/]+)$    index.php?type1=$1&type2=$2&type3=$3&url=$4    [NC,L]    # Handle word ids.

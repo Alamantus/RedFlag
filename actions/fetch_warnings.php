@@ -13,7 +13,7 @@ require_once('../classes/Hashids/HashGenerator.php');
 require_once('../classes/Hashids/Hashids.php');
 
 $easycrypt = new EasyCrypt();
-$db = new DBControl('../resources/warner.db');
+$db = new DBControl('../resources/redflag.db');
 $hashids = new Hashids\Hashids(HASHID_CODE);
 
 // Time in seconds before a proposed timestamp expires.

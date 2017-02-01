@@ -18,7 +18,7 @@ $url = isset($_POST['url']) ? $_POST['url'] : false;
 //echo var_dump($warnings);
 
 $easycrypt = new EasyCrypt();
-$db = new DBControl('../resources/warner.db');
+$db = new DBControl('../resources/redflag.db');
 $hashids = new Hashids\Hashids(HASHID_CODE);
 
 $url_hash = hash('md5', $url);
@@ -37,6 +37,10 @@ function unhash_warnings ($value) {
     $hashids = new Hashids\Hashids(HASHID_CODE);
     // hashids->decode() always returns an array. Since we know only one value is here, choose that one.
     return $hashids->decode($value)[0];
+}
+
+function increment_warning_used_times ($db, $warnings) {
+    $db->query('UPDATE `warnings` SET `used_times`=`used_times` + 1 WHERE id IN (' . implode(', ', $warnings) . ');');
 }
 
 $check_url_exists = ('
@@ -61,7 +65,12 @@ if ($db->query($check_url_exists)) {
             echo 'failed';
         }
     }
-    $ids_array = array_map('unhash_warnings', $warnings);
+
+    $raw_warning_ids = array_map('unhash_warnings', $warnings);
+
+    increment_warning_used_times($db, $raw_warning_ids);
+
+    $ids_array = $raw_warning_ids;
     array_unshift($ids_array, intval($link_id));
 //    echo var_dump($ids_array);
     echo $hashids->encode($ids_array);

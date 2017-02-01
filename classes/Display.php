@@ -101,6 +101,7 @@ class Display {
 <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.5.16/clipboard.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/0.3.6/marked.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/2.6.1/fuse.min.js"></script>
 <script src="js/polyfills.js"></script>
 <script src="js/regex-weburl.js"></script>
 <script src="js/jquery-events.js"></script>
@@ -150,7 +151,7 @@ ga(\'send\', \'pageview\');
         return $navbar_content;
     }
 
-    public static function render_form () {
+    public static function render_form ($preselectedWarning = false) {
         $form_content = ('
 <section class="section">
     <div class="container">
@@ -162,6 +163,8 @@ ga(\'send\', \'pageview\');
             <span class="select is-fullwidth">
                 <select id="warnings" multiple="multiple"></select>
             </span>
+            <input type="hidden" id="preselectedWarning"
+                value="' . (($preselectedWarning) ? $preselectedWarning : '') . '" />
         </p>
         <label class="label" for="#url">
             URL
@@ -171,9 +174,9 @@ ga(\'send\', \'pageview\');
             <input class="input" id="url" type="text" placeholder="Link to Warn About" />
         </p>
         <p class="control">
-            <button class="button is-primary is-large" id="submit">
+            <a class="button is-primary is-large" id="getLink">
                 Get Link!
-            </button>
+            </a>
         </p>
         <p class="control has-addons" id="output"></p>
     </div>
@@ -183,13 +186,13 @@ ga(\'send\', \'pageview\');
         return $form_content;
     }
 
-    public static function render_main_page ($error_message = false) {
+    public static function render_main_page ($options = array()) {
         $error_html = '';
-        if ($error_message) {
+        if ($options['error']) {
             $error_html = ('
 <div class="container has-text-centered">
     <div class="notification is-warning">
-        ' . Terminology::$error_messages[$error_message] . '
+        ' . Terminology::$error_messages[$options['error']] . '
     </div>
 </div>
             ');
@@ -215,7 +218,7 @@ ga(\'send\', \'pageview\');
         ' . $error_html . '
     </div>
 </header>
-' . Display::render_form() . '
+' . Display::render_form($options['preselected']) . '
 <footer class="footer is-sticky">
     <div class="container">
         ' . Terminology::$site_footer . '
@@ -294,6 +297,63 @@ ga(\'send\', \'pageview\');
         <article class="content">
             ' . Terminology::$about_text . '
         </article>
+    </div>
+</section>
+<footer class="footer is-sticky">
+    <div class="container">
+        ' . Terminology::$site_footer . '
+    </div>
+</footer>
+        ');
+
+        echo Display::render_html_wrapper($page_content);
+    }
+
+    public static function render_propose_page () {
+        $page_content = ('
+<header class="hero is-primary">
+    <!-- Hero header: will stick at the top -->
+    <div class="hero-head">
+        ' . Display::render_navbar() . '
+    </div>
+
+    <!-- Hero content: will be in the middle -->
+    <div class="hero-body">
+        <div class="container has-text-centered">
+            <h1 class="title">
+                ' . Terminology::$site_tagline . '
+            </h1>
+            <h2 class="subtitle">
+                ' . Terminology::$site_description . '
+            </h2>
+        </div>
+    </div>
+</header>
+<section class="section">
+    <div class="container">
+        <article class="content">
+            ' . Terminology::$propose_text . '
+        </article>
+        
+        <p class="control"></p>
+        
+        <label class="label" for="#newWarning">
+            New Warning
+        </label>
+        <span class="help is-danger" id="newWarningError"></span>
+        <p class="control">
+            <input class="input" id="newWarning" type="text" placeholder="Warning Text" />
+        </p>
+        <p class="control" id="alreadyListedHelp" style="display:none;">
+            <span class="help"><strong>Warnings Already Listed:</strong></span>
+            <span class="help" id="alreadyListed"></span>
+        </p>
+        <p class="control">
+            <a class="button is-primary is-large" id="submitNewWord">
+                Submit!
+            </a>
+        </p>
+        <p class="control" id="output"></p>
     </div>
 </section>
 <footer class="footer is-sticky">
