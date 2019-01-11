@@ -269,7 +269,7 @@ ga(\'send\', \'pageview\');
 </section>
         ');
 
-        echo Display::render_html_wrapper($page_content, $warning_term_list . 'Warning', $warning_term_list);
+        echo Display::render_html_wrapper($page_content, trim($warning_term_list) . ' Warning', $warning_term_list);
     }
 
     public static function render_about_page () {
