@@ -59,7 +59,7 @@ RedFlag allows you to share potentially negative or harmful content while giving
 kind of material a chance to opt out of seeing it.
 
 The inspiration for this site comes from an article that went around in January 2017 about a brutally murdered dog. Dog
-rescues and many other sources shared this article, which featured and previewed the grizzly images. While it is important
+rescues and many other sources shared this article, which featured and previewed the grisly images. While it is important
 to know about this kind of thing, I can&rsquo;t imagine anyone who would actually want to see the images that were posted.
 
 RedFlag is here to provide a better experience on social media and for clicking regular links in general by letting your
