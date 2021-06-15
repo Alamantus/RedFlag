@@ -242,11 +242,11 @@ class Display {
             </h1>
             
             <div class="container">
-                <a class="button is-info is-medium" id="backButton" href="' . $_SERVER['HTTP_REFERER'] . '">
+                <a class="button is-info is-medium" style="white-space:normal;word-break:break-word;height:unset;" id="backButton" href="' . $_SERVER['HTTP_REFERER'] . '">
                     ' . Terminology::$reject_text . '
                 </a>
                 <br /><br />
-                <a class="button is-warning is-small is-outlined" href="' . $url . '">
+                <a class="button is-warning is-small is-outlined" style="white-space:normal;word-break:break-all;height:unset;" href="' . $url . '">
                     ' . Terminology::$accept_text . $url . '
                 </a>
             </div>
